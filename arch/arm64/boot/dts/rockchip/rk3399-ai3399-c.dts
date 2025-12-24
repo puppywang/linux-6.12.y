@@ -3,6 +3,8 @@
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/usb/pd.h>
 #include "rk3399.dtsi"
+#define RK3399_TWO_PLL_FOR_VOP
+#include "rk3399-ai3399-c-vop-clk-set.dtsi"
 
 / {
 	model = "Rockchip RK3399 AI3399-C Lvds(TC358775C)";

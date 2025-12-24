@@ -18,6 +18,9 @@
 		assigned-clock-rates = <200000000>;
 };
 
+
+/* UART and Audio clocks removed due to undefined macros in mainline headers */
+/*
 &uart0 {
 		assigned-clocks = <&cru SCLK_UART0_SRC>;
 		assigned-clock-parents = <&cru PLL_GPLL>;
@@ -62,6 +65,7 @@
 		assigned-clocks = <&cru SCLK_I2S2_DIV>;
 		assigned-clock-parents = <&cru PLL_GPLL>;
 };
+*/
 
 &cru {
 		assigned-clocks =
