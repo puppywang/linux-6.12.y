@@ -1,0 +1,25 @@
+name: Notify kernel repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger kernel workflow
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.KERNEL_REPO_TOKEN }}" \
+            https://api.github.com/repos/puppywang/kernel/dispatches \
+            -d '{
+              "event_type": "linux-source-updated",
+              "client_payload": {
+                "repo": "${{ github.repository_owner }}",
+                "sha": "${{ github.sha }}",
+                "branch": "6.12.y"
+              }
+            }'

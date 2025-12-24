@@ -113,6 +113,10 @@ modules.order
 !.mailmap
 !.rustfmt.toml
 
+# 但保留 GitHub Actions
+!.github/
+!.github/**
+
 #
 # Generated include files
 #
