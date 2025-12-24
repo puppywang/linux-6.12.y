@@ -5,6 +5,7 @@
 #include "rk3399.dtsi"
 #define RK3399_TWO_PLL_FOR_VOP
 #include "rk3399-ai3399-c-vop-clk-set.dtsi"
+#include "rk3399-ai3399-c-rkisp1.dtsi"
 
 / {
 	model = "Rockchip RK3399 AI3399-C Lvds(TC358775C)";
@@ -25,6 +26,13 @@
 		compatible = "fixed-clock";
 		clock-frequency = <125000000>;
 		clock-output-names = "clkin_gmac";
+		#clock-cells = <0>;
+	};
+
+	clkin_cam27m: external-cam-clock {
+		compatible = "fixed-clock";
+		clock-frequency = <27000000>;
+		clock-output-names = "clkin_cam27m";
 		#clock-cells = <0>;
 	};
 
@@ -1196,5 +1204,9 @@
 	status = "disabled";
 };*/
 &rng {
+	status = "okay";
+};
+
+&i2c1 {
 	status = "okay";
 };
