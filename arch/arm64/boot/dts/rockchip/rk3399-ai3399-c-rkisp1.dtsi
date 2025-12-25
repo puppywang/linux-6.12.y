@@ -8,11 +8,6 @@
  * 
  * edit by https://github.com/dearxjoe
  */ 
-#include <dt-bindings/pinctrl/rockchip.h>
-
-
-/* Manually defining missing ISP/DPHY nodes for RK3399 */
-/* These should typically be in rk3399.dtsi but are missing in this tree */
 
 &i2c1 {
 	ov4689p0: ov4689@36 {
@@ -102,7 +97,7 @@
 	};
 };
 
-&isp0 {
+&rkisp1_0 {
 	status = "okay";
 
 	port {
@@ -228,7 +223,7 @@
 	};
 };
 
-&isp1 {
+&rkisp1_1 {
 	status = "okay";
 
 	port {
@@ -246,7 +241,7 @@
 	status = "okay";
 };
 
-&mipi_dsi1 {
+&mipi_dphy_tx1rx1 {
 	status = "okay";
 
 	ports {
@@ -287,7 +282,7 @@
 &pinctrl {
 	cam_pins {
 		cif_clkout_a: cif-clkout-a {
-				rockchip,pins = <2 11 3 &pcfg_pull_none>;
+			rockchip,pins = <2 11 RK_FUNC_3 &pcfg_pull_none>;
 		};
 
 		cif_clkout_a_sleep: cif-clkout-a-sleep {
