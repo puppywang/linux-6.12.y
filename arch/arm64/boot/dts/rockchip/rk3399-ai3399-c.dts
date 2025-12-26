@@ -243,10 +243,11 @@
         simple-audio-card,format = "i2s";
         simple-audio-card,name = "rockchip,es8388-codec";
         simple-audio-card,mclk-fs = <0x100>;
-		simple-audio-card,widgets = "Microphone", "Mic Jack", 
+		simple-audio-card,widgets = "Microphone", "Mic Jack",
 									"Headphone", "Headphone Jack";
-		simple-audio-card,routing = "Mic Jack", "MICBIAS1", "IN1P","Mic Jack", 
-									"Headphone Jack", "HPOL", "Headphone Jack", "HPOR";
+		simple-audio-card,routing = "LINPUT1", "Mic Jack",
+									"Headphone Jack", "LOUT1",
+									"Headphone Jack", "ROUT1";
         status = "okay";
         simple-audio-card,cpu {
             sound-dai = <&i2s0>;
@@ -1080,6 +1081,7 @@
 };
 &hdmi {
 	status = "okay";
+	rockchip,defaultmode = <16>;
 	avdd-0v9-supply = <&vcca0v9_hdmi>;
 	avdd-1v8-supply = <&vcc1v8_hdmi>;
 
