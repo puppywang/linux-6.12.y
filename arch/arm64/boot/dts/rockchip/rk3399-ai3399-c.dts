@@ -3,16 +3,16 @@
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/usb/pd.h>
 #include "rk3399.dtsi"
-#include "rk3399-opp.dtsi"
 
 / {
-	compatible = "rockchip,android", "rockchip,rk3399-ai3399c-lvds", "rockchip,rk3399";
-	serial-number = "STVQPGOW8K";
 	model = "Rockchip RK3399 AI3399-C Lvds(TC358775C)";
-	signway,hwid = "01.02.03.04.05.06.07.08";
+	compatible = "signway,rk3399-ai3399c-lvds", "rockchip,rk3399";
 
 	aliases {
+		ethernet0 = &gmac;
 		mmc0 = &sdhci;
+		mmc1 = &sdmmc;
+		mmc2 = &sdio0;
 	};
 
 	chosen {
@@ -27,116 +27,117 @@
 		#clock-cells = <0>;
 	};
 
-    dc_12v: dc-12v {
-        compatible = "regulator-fixed";
-        regulator-name = "dc_12v";
-        regulator-always-on;
-        regulator-boot-on;
-        regulator-min-microvolt = <12000000>;
-        regulator-max-microvolt = <12000000>;
-    };
-    vcc1v8_s3: vcc1v8-s3 {
-        compatible = "regulator-fixed";
-        regulator-name = "vcc1v8_s3";
-        regulator-always-on;
-        regulator-boot-on;
-        regulator-min-microvolt = <1800000>;
-        regulator-max-microvolt = <1800000>;
-        vin-supply = <&vcc_1v8>;
-    };
-    vcc_sys: vcc-sys {
-        compatible = "regulator-fixed";
-        regulator-name = "vcc_sys";
-        regulator-always-on;
-        regulator-boot-on;
-        regulator-min-microvolt = <5000000>;
-        regulator-max-microvolt = <5000000>;
-        vin-supply = <&dc_12v>;
-    };
-    vcc3v3_sys: vcc3v3-sys {
-        compatible = "regulator-fixed";
-        regulator-name = "vcc3v3_sys";
-        regulator-always-on;
-        regulator-boot-on;
-        regulator-min-microvolt = <3300000>;
-        regulator-max-microvolt = <3300000>;
-        vin-supply = <&vcc_sys>;
-    };
-    vcc5v0_host: vcc5v0-host-regulator {
-        compatible = "regulator-fixed";
-        regulator-name = "vcc5v0_host";
-        regulator-always-on;
-        vin-supply = <&vcc_sys>;
-    };
-    vcc5v0_sys: vcc5v0-sys {
-        compatible = "regulator-fixed";
-        regulator-name = "vcc5v0_sys";
-        regulator-always-on;
-        regulator-boot-on;
-        regulator-min-microvolt = <5000000>;
-        regulator-max-microvolt = <5000000>;
-    };
-    vdd_log: vdd-log {
-        compatible = "pwm-regulator";
-        pwms = <&pwm2 0x0 25000 0x1>;
-        rockchip,pwm_id = <2>;
-        rockchip,pwm_voltage = <1000000>;
-        regulator-name = "vdd_log";
-        regulator-always-on;
-        regulator-boot-on;
-        regulator-min-microvolt = <800000>;
-        regulator-max-microvolt = <1400000>;
-        vin-supply = <&vcc_sys>;
-    };
-    vcc_es8388: vcc-es8388-regulator {
-        compatible = "regulator-fixed";
-        enable-active-high;
-        gpio = <&gpio2 7 GPIO_ACTIVE_HIGH>;
-        pinctrl-names = "default";
-        pinctrl-0 = <&es8388_en>; //待引用
-        regulator-name = "vcc_es8388";
+	dc_12v: dc-12v {
+		compatible = "regulator-fixed";
+		regulator-name = "dc_12v";
+		regulator-always-on;
 		regulator-boot-on;
-        regulator-always-on;
-        vin-supply = <&vcc_sys>;
-    };
-    vcc_sd: vcc-sd {
-        compatible = "regulator-fixed";
-        enable-active-high;
-        gpio = <&gpio0 1 GPIO_ACTIVE_HIGH>;
-        pinctrl-names = "default";
-        pinctrl-0 = <&sdmmc0_pwr_h>;//待引用
-        regulator-always-on;
-        regulator-max-microvolt = <3000000>;
-        regulator-min-microvolt = <3000000>;
-        regulator-name = "vcc_sd";
-    };
-    vcc_lcd: vcc-lcd {
-        compatible = "regulator-fixed";
-        regulator-name = "vcc_lcd";
-        startup-delay-us = <20000>;
-        regulator-min-microvolt = <3300000>;
-        regulator-max-microvolt = <3300000>;
-        regulator-always-on;
-        regulator-boot-on;
-        vin-supply = <&vcc5v0_sys>;
-    };
+		regulator-min-microvolt = <12000000>;
+		regulator-max-microvolt = <12000000>;
+	};
+
+	vcc_sys: vcc-sys {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc_sys";
+		regulator-always-on;
+		regulator-boot-on;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&dc_12v>;
+	};
+	vcc3v3_sys: vcc3v3-sys {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc3v3_sys";
+		regulator-always-on;
+		regulator-boot-on;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		vin-supply = <&vcc_sys>;
+	};
+
+	vcc5v0_host: vcc5v0-host-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc5v0_host";
+		regulator-always-on;
+		vin-supply = <&vcc_sys>;
+	};
+
+	vcc5v0_sys: vcc5v0-sys {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc5v0_sys";
+		regulator-always-on;
+		regulator-boot-on;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vcc_sys>;
+	};
+
+	vdd_log: vdd-log {
+		compatible = "pwm-regulator";
+		pwms = <&pwm2 0 25000 1>;
+		rockchip,pwm_id = <2>;
+		rockchip,pwm_voltage = <1000000>;
+		regulator-name = "vdd_log";
+		regulator-always-on;
+		regulator-boot-on;
+		regulator-min-microvolt = <800000>;
+		regulator-max-microvolt = <1400000>;
+		vin-supply = <&vcc_sys>;
+	};
+
+	vcc_es8388: vcc-es8388-regulator {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio2 7 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&es8388_en>;
+		regulator-name = "vcc_es8388";
+		regulator-boot-on;
+		regulator-always-on;
+		vin-supply = <&vcc_sys>;
+	};
+
+	vcc_sd: vcc-sd {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio0 1 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&sdmmc0_pwr_h>;
+		regulator-always-on;
+		regulator-boot-on;
+		regulator-min-microvolt = <3000000>;
+		regulator-max-microvolt = <3000000>;
+		regulator-name = "vcc_sd";
+	};
+
+	vcc_lcd: vcc-lcd {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc_lcd";
+		startup-delay-us = <20000>;
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-always-on;
+		regulator-boot-on;
+		vin-supply = <&vcc5v0_sys>;
+	};
+
 	sdio_pwrseq: sdio-pwrseq {
 		compatible = "mmc-pwrseq-simple";
 		clocks = <&rk808 1>;
 		clock-names = "ext_clock";
 		pinctrl-names = "default";
-        pinctrl-0 = <&wifi_enable_h>;//待引用
-        reset-gpios = <&gpio0 RK_PB2 GPIO_ACTIVE_LOW>;
+		pinctrl-0 = <&wifi_enable_h>;
+		reset-gpios = <&gpio0 RK_PB2 GPIO_ACTIVE_LOW>;
 	};
-	//测试下wifi
-    wireless_wlan: wireless-wlan {//抄袭
-        compatible = "wlan-platdata";
-        rockchip,grf = <&grf>;//待引用
-        wifi_chip_type = "rtl8723ds";
+
+	wireless_wlan: wireless-wlan {
+		compatible = "wlan-platdata";
+		rockchip,grf = <&grf>;
+		wifi_chip_type = "rtl8723ds";
 		pinctrl-0 = <&wifi_host_wake_l>;
-        WIFI,host_wake_irq = <&gpio0 RK_PA3 GPIO_ACTIVE_HIGH>;//待引用
-        status = "okay";
-    };
+		WIFI,host_wake_irq = <&gpio0 RK_PA3 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
 	/*
     wireless_bluetooth: wireless-bluetooth {
         compatible = "bluetooth-platdata";
@@ -262,26 +263,58 @@
 		status = "okay";
 
 		power {
-			debounce-interval = <0x64>;
+			debounce-interval = <100>;
 			gpios = <&gpio0 RK_PA5 GPIO_ACTIVE_LOW>;
-			
 			label = "GPIO Key Power";
-			linux,code = <0x74>;
+			linux,code = <KEY_POWER>;
 			wakeup-source;
 		};
 	};
-    backlight {
-		//暂时禁用,因为没人用
-        //status = "okay";
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		ramoops_mem: ramoops@110000 {
+			reg = <0x0 0x110000 0x0 0xf0000>;
+			reg-names = "ramoops_mem";
+		};
+	};
+
+	ramoops {
+		compatible = "ramoops";
+		record-size = <0x20000>;
+		console-size = <0x80000>;
+		ftrace-size = <0x00000>;
+		pmsg-size = <0x50000>;
+		memory-region = <&ramoops_mem>;
+	};
+
+	backlight {
 		status = "okay";
-        compatible = "pwm-backlight";
-        brightness-levels = <0x2F 0x2F 0x2F 0x2F 0x2F 0x2F 0x30 0x30 0x31 0x31 0x32 0x32 0x33 0x33 0x34 0x34 0x35 0x35 0x36 0x36 0x37 0x37 0x38 0x38 0x39 0x39 0x3A 0x3A 0x3B 0x3B 0x3C 0x3C 0x3D 0x3D 0x3E 0x3E 0x3F 0x3F 0x40 0x40 0x41 0x41 0x42 0x42 0x43 0x43 0x44 0x44 0x45 0x45 0x46 0x46 0x47 0x47 0x48 0x48 0x49 0x49 0x4A 0x4A 0x4B 0x4B 0x4C 0x4C 0x4D 0x4D 0x4E 0x4E 0x4F 0x4F 0x50 0x50 0x51 0x51 0x52 0x52 0x53 0x53 0x54 0x54 0x55 0x55 0x56 0x56 0x57 0x57 0x58 0x58 0x59 0x59 0x5A 0x5B 0x5C 0x5D 0x5E 0x5F 0x60 0x61 0x62 0x63 0x64 0x65 0x66 0x67 0x68 0x69 0x6A 0x6B 0x6C 0x6D 0x6E 0x6F 0x70 0x71 0x72 0x73 0x74 0x75 0x76 0x77 0x78 0x79 0x7A 0x7B 0x7C 0x7D 0x7E 0x7F 0x80 0x81 0x82 0x83 0x84 0x85 0x86 0x87 0x88 0x89 0x8A 0x8B 0x8C 0x8D 0x8E 0x8F 0x90 0x91 0x92 0x93 0x94 0x95 0x96 0x97 0x98 0x99 0x9A 0x9B 0x9C 0x9D 0x9E 0x9F 0xA0 0xA1 0xA2 0xA3 0xA4 0xA5 0xA6 0xA7 0xA8 0xA9 0xAA 0xAB 0xAC 0xAD 0xAE 0xAF 0xB0 0xB1 0xB2 0xB3 0xB4 0xB5 0xB6 0xB7 0xB8 0xB9 0xBA 0xBB 0xBC 0xBD 0xBE 0xBF 0xC0 0xC1 0xC2 0xC3 0xC4 0xC5 0xC6 0xC7 0xC8 0xC9 0xCA 0xCB 0xCC 0xCD 0xCE 0xCF 0xD0 0xD1 0xD2 0xD3 0xD4 0xD5 0xD6 0xD7 0xD8 0xD9 0xDA 0xDB 0xDC 0xDD 0xDE 0xDF 0xE0 0xE1 0xE2 0xE3 0xE4 0xE5 0xE6 0xE7 0xE8 0xE9 0xEA 0xEB 0xEC 0xED 0xEE 0xEF 0xF0 0xF1 0xF2 0xF3 0xF4 0xF5 0xF6 0xF7 0xF8 0xF9 0xFA 0xFB 0xFC 0xFD 0xFE 0xFF>;
-        default-brightness-level = <200>;
-        enable-gpios = <&gpio4 25 GPIO_ACTIVE_HIGH>;
-		//pinctrl-names = "default";
-		//pinctrl-0 = <&backlight_ctrl>;
-        pwms = <&pwm0 0 5000000 1>;
-    };
+		compatible = "pwm-backlight";
+		brightness-levels = <
+			 47  47  47  47  47  47  48  48  49  49  50  50  51  51  52  52
+			 53  53  54  54  55  55  56  56  57  57  58  58  59  59  60  60
+			 61  61  62  62  63  63  64  64  65  65  66  66  67  67  68  68
+			 69  69  70  70  71  71  72  72  73  73  74  74  75  75  76  76
+			 77  77  78  78  79  79  80  80  81  81  82  82  83  83  84  84
+			 85  85  86  86  87  87  88  88  89  90  91  92  93  94  95  96
+			 97  98  99 100 101 102 103 104 105 106 107 108 109 110 111 112
+			113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128
+			129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144
+			145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160
+			161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176
+			177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192
+			193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208
+			209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224
+			225 226 227 228 229 230 231 232 233 234 235 236 237 238 239 240
+			241 242 243 244 245 246 247 248 249 250 251 252 253 254 255>;
+		default-brightness-level = <200>;
+		enable-gpios = <&gpio4 25 GPIO_ACTIVE_HIGH>;
+		pwms = <&pwm0 0 5000000 PWM_POLARITY_INVERTED>;
+	};
 };
 
 &cpu_l0 {
@@ -603,36 +636,11 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&sdio0_bus4 &sdio0_cmd &sdio0_clk>;
 	sd-uhs-sdr104;
-	keep-power-in-suspend;
 	#address-cells = <1>;
 	#size-cells = <0>;
-	status = "okay";//有bug先禁用
-	/*
-	wifi@1 {
-		reg = <1>;
-		compatible = "brcm,bcm4329-fmac";
-		interrupt-parent = <&gpio0>;
-		interrupts = <RK_PA3 GPIO_ACTIVE_HIGH>;
-		interrupt-names = "host-wake";
-		brcm,drive-strength = <5>;
-		pinctrl-names = "default";
-	};*/
-};
-//设备树,平坦增加,但是新增就不能平坦,要嵌套.
-//没驱动
-/*
-&i2c2 {
 	status = "okay";
-	fusb0: fusb30x@22 {
-		compatible = "fcs,fusb302";
-		reg = <0x22>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&fusb0_int>;
-		int-n-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
-		vbus-5v-gpios = <&gpio1 13 GPIO_ACTIVE_HIGH>;
-		status = "okay";
-	};
-};*/
+};
+
 &i2c2 {
 	status = "okay";
 	fusb0: fusb30x@22 {
@@ -1001,10 +1009,9 @@
 };
 &i2c1 {
 	status = "okay";
-	//暂时禁用
-	//i2c-scl-rising-time-ns = <300>;
-	//i2c-scl-falling-time-ns = <15>;
-	//clock-frequency = <10000>;
+	i2c-scl-rising-time-ns = <300>;
+	i2c-scl-falling-time-ns = <15>;
+	clock-frequency = <100000>;
 
 	es8388: es8388@11 {
 		status = "okay";
@@ -1012,8 +1019,7 @@
 		reg = <0x11>;
 		clocks = <&cru SCLK_I2S_8CH_OUT>;
 		clock-names = "mclk";
-		//pinctrl-0 = <>; //跟i2s0冲突,新的不需要引用
-		#sound-dai-cells = <0x0>;
+		#sound-dai-cells = <0>;
 		amp-gain-gpios = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
 		spk-ctl-gpios = <&gpio1 RK_PD0 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
@@ -1023,6 +1029,7 @@
 		HPVDD-supply = <&vcc_es8388>;
 		PVDD-supply = <&vcc_es8388>;
 	};
+
 	eeprom: sw201@50 {
 		status = "okay";
 		compatible = "eeprom,sw201";
@@ -1097,41 +1104,39 @@
 &vopl_out_hdmi {
 	status = "disabled";
 };
-//这里默认引用了i2s2,禁用
 &hdmi_sound {
-	status = "disable";
+	status = "disabled";
 };
+
 &i2s0 {
 	status = "okay";
-	//测试
-	//pinctrl-0 = <&i2s0_8ch_bus>;
 	pinctrl-0 = <&i2s_8ch_mclk_pin>, <&i2s0_8ch_bus>;
 	rockchip,playback-channels = <8>;
 	rockchip,capture-channels = <8>;
 };
-//禁用
+
 &i2s2 {
-	status = "disable";
+	status = "disabled";
 	rockchip,bclk-fs = <128>;
 };
 &vopb_mmu {
 	status = "okay";
 };
+
 &vopb {
 	status = "okay";
-	//support-multi-area;
-	//assigned-clocks = <&cru DCLK_VOP0_DIV>;
-	//assigned-clock-parents = <&cru PLL_VPLL>;
-	
+	assigned-clocks = <&cru DCLK_VOP0_DIV>;
+	assigned-clock-parents = <&cru PLL_VPLL>;
 };
-&vopl_mmu{
+
+&vopl_mmu {
 	status = "okay";
 };
+
 &vopl {
 	status = "okay";
-	//support-multi-area;
-	//assigned-clocks = <&cru DCLK_VOP1_DIV>;
-	//assigned-clock-parents = <&cru PLL_CPLL>;
+	assigned-clocks = <&cru DCLK_VOP1_DIV>;
+	assigned-clock-parents = <&cru PLL_CPLL>;
 };
 //添加 io_domains
 &io_domains {
