@@ -9,6 +9,41 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need previous commit to compare
+
+      - name: Detect change type
+        id: detect
+        run: |
+          # Get list of changed files
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || git diff --name-only HEAD)
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+          
+          # Check if all changes are DTS/DTSI files only
+          DTS_ONLY="true"
+          while IFS= read -r file; do
+            if [[ -n "$file" ]]; then
+              if [[ ! "$file" =~ \.(dts|dtsi)$ ]]; then
+                DTS_ONLY="false"
+                echo "Non-DTS file found: $file"
+                break
+              fi
+            fi
+          done <<< "$CHANGED_FILES"
+          
+          echo "dts_only=${DTS_ONLY}" >> $GITHUB_OUTPUT
+          
+          if [[ "$DTS_ONLY" == "true" ]]; then
+            echo "kernel_package=dtbs" >> $GITHUB_OUTPUT
+            echo "📦 DTS-only change detected, will build DTBs only"
+          else
+            echo "kernel_package=all" >> $GITHUB_OUTPUT
+            echo "📦 Non-DTS changes detected, will build full kernel"
+          fi
+
       - name: Trigger kernel workflow
         run: |
           curl -X POST \
@@ -20,6 +55,9 @@ jobs:
               "client_payload": {
                 "repo": "${{ github.repository_owner }}",
                 "sha": "${{ github.sha }}",
-                "branch": "6.12.y"
+                "branch": "6.12.y",
+                "kernel_package": "${{ steps.detect.outputs.kernel_package }}"
               }
             }'
+          
+          echo "✅ Triggered kernel build with kernel_package=${{ steps.detect.outputs.kernel_package }}"
