@@ -844,9 +844,9 @@
 
 &usbdrd_dwc3_0 {
 	status = "okay";
-	dr_mode = "host";
-	//extcon = <&fusb0>;
-	
+	dr_mode = "otg";  // was "host", changed to support DFP/UFP switching
+	extcon = <&fusb0>;  // enable Type-C role switch via fusb302
+	usb-role-switch;
 };
 
 &usbdrd3_1 {
