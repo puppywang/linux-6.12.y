@@ -818,7 +818,7 @@
 	};
 };
 &spdif {
-	status = "okay";
+	status = "disabled";  // conflicts with ES8388 spk-ctl GPIO4_C5
 	i2c-scl-rising-time-ns = <450>;
 	i2c-scl-falling-time-ns = <15>;
 };
@@ -1112,7 +1112,7 @@
 	rockchip,playback-channels = <8>;
 	rockchip,capture-channels = <8>;
 	assigned-clocks = <&cru SCLK_I2S0_8CH>;
-	assigned-clock-parents = <&cru PLL_GPLL>;
+	// assigned-clock-parents removed - causes reparent error
 };
 
 &i2s2 {
