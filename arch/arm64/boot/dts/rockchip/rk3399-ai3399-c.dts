@@ -1017,10 +1017,8 @@
 		clocks = <&cru SCLK_I2S_8CH_OUT>;
 		clock-names = "mclk";
 		#sound-dai-cells = <0>;
-		amp-gain-gpios = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
-		spk-ctl-gpios = <&gpio4 RK_PC5 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&amp_gain &spk_ctl>;
+		// amp-gain-gpios and spk-ctl-gpios removed - mainline es8328 driver
+		// does not support these properties (causes pinctrl conflict with SPDIF)
 		AVDD-supply = <&vcc_es8388>;
 		DVDD-supply = <&vcc_es8388>;
 		HPVDD-supply = <&vcc_es8388>;
