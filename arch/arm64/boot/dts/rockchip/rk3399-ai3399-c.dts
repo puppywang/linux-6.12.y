@@ -989,7 +989,7 @@
 		};
 	
 		spk_ctl: spk-ctl {
-			rockchip,pins = <1 RK_PD0 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <4 RK_PC5 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
 };
@@ -1018,7 +1018,7 @@
 		clock-names = "mclk";
 		#sound-dai-cells = <0>;
 		amp-gain-gpios = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
-		spk-ctl-gpios = <&gpio1 RK_PD0 GPIO_ACTIVE_HIGH>;
+		spk-ctl-gpios = <&gpio4 RK_PC5 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&amp_gain &spk_ctl>;
 		AVDD-supply = <&vcc_es8388>;
@@ -1111,6 +1111,8 @@
 	pinctrl-0 = <&i2s_8ch_mclk_pin>, <&i2s0_8ch_bus>;
 	rockchip,playback-channels = <8>;
 	rockchip,capture-channels = <8>;
+	assigned-clocks = <&cru SCLK_I2S0_8CH>;
+	assigned-clock-parents = <&cru PLL_GPLL>;
 };
 
 &i2s2 {
