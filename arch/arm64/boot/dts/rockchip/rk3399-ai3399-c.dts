@@ -658,17 +658,9 @@
 		//vbus-5v-gpios = <&gpio1 13 GPIO_ACTIVE_HIGH>;
 		status = "okay";
 
-		ports {
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			port@0 {
-				reg = <0>;
-				usbc0_role_sw: endpoint@0 {
-					remote-endpoint = <&dwc3_0_role_switch>;
-				};
-			};
-		};
+		/* NOTE: usb-role-switch ports node disabled since DWC3 is in host mode.
+		 * TODO: Re-enable when fixing OTG support.
+		 */
 
 		typec_con: connector {
 			compatible = "usb-c-connector";
@@ -859,14 +851,11 @@
 
 &usbdrd_dwc3_0 {
 	status = "okay";
-	dr_mode = "otg";
-	usb-role-switch;
-
-	port {
-		dwc3_0_role_switch: endpoint {
-			remote-endpoint = <&usbc0_role_sw>;
-		};
-	};
+	dr_mode = "host";
+	/* NOTE: usb-role-switch disabled due to TCPM not registering as provider.
+	 * Type-C will work as pure host mode for now.
+	 * TODO: Fix OF graph connection between fusb302 and DWC3 for proper OTG.
+	 */
 };
 
 &usbdrd3_1 {
