@@ -844,9 +844,10 @@
 
 &usbdrd_dwc3_0 {
 	status = "okay";
-	dr_mode = "otg";  // was "host", changed to support DFP/UFP switching
-	extcon = <&fusb0>;  // enable Type-C role switch via fusb302
-	usb-role-switch;
+	dr_mode = "host";
+	// Note: extcon = <&fusb0> removed - fusb302 driver doesn't properly expose
+	// extcon interface, causing "failed to get extcon" probe failure.
+	// Type-C OTG mode requires additional kernel patches for RK3399.
 };
 
 &usbdrd3_1 {
