@@ -675,7 +675,7 @@
 				<PDO_FIXED(5000, 1400, PDO_FIXED_USB_COMM)>;
 			try-power-role = "source";
 			ports {
-				#address-cells = <1>;
+			/*	#address-cells = <1>;
 				#size-cells = <0>;
 
 				port@0 {
@@ -695,7 +695,7 @@
 					typec_dp: endpoint {
 						remote-endpoint = <&tcphy0_typec_dp>;
 					};
-				};
+				}; */
 			};
 		};
 	};
@@ -778,16 +778,16 @@
 };
 &tcphy0_dp { // verify
 	port {
-		tcphy0_typec_dp: endpoint {
+		/* tcphy0_typec_dp: endpoint {
 			remote-endpoint = <&typec_dp>;
-		};
+		}; */
 	};
 };
 &tcphy0_usb3 { // verify
 	port {
-		tcphy0_typec_ss: endpoint {
+		/* tcphy0_typec_ss: endpoint {
 			remote-endpoint = <&typec_ss>;
-		};
+		}; */
 	};
 };
 &tcphy1 {
@@ -807,9 +807,9 @@
 	};
 
 	port {
-		u2phy0_typec_hs: endpoint {
+		/* u2phy0_typec_hs: endpoint {
 			remote-endpoint = <&typec_hs>;
-		};
+		}; */
 	};
 };
 &u2phy1 {
