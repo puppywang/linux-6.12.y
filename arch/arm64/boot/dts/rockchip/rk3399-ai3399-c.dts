@@ -666,7 +666,7 @@
 				<PDO_FIXED(5000, 2500, PDO_FIXED_USB_COMM)>;
 			source-pdos =
 				<PDO_FIXED(5000, 1400, PDO_FIXED_USB_COMM)>;
-			try-power-role = "sink";
+			try-power-role = "source";
 			ports {
 				#address-cells = <1>;
 				#size-cells = <0>;
