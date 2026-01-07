@@ -186,10 +186,19 @@ struct usb_role_switch *fwnode_usb_role_switch_get(struct fwnode_handle *fwnode)
 {
 	struct usb_role_switch *sw;
 
+	pr_debug("fwnode_usb_role_switch_get: fwnode=%pfw\n", fwnode);
+	
 	sw = usb_role_switch_is_parent(fwnode);
-	if (!sw)
+	pr_debug("fwnode_usb_role_switch_get: is_parent returned %s\n",
+		 sw ? (IS_ERR(sw) ? "ERROR" : "found") : "NULL");
+	
+	if (!sw) {
 		sw = fwnode_connection_find_match(fwnode, "usb-role-switch",
 						  NULL, usb_role_switch_match);
+		pr_debug("fwnode_usb_role_switch_get: connection_find_match returned %s\n",
+			 sw ? (IS_ERR(sw) ? "ERROR" : "found") : "NULL");
+	}
+	
 	if (!IS_ERR_OR_NULL(sw))
 		WARN_ON(!try_module_get(sw->module));
 
