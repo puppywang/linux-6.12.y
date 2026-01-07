@@ -655,6 +655,19 @@
 		vbus-supply = <&vcc_vbus_typec0>;
 		//vbus-5v-gpios = <&gpio1 13 GPIO_ACTIVE_HIGH>;
 		status = "okay";
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+				usbc0_role_sw: endpoint@0 {
+					remote-endpoint = <&dwc3_0_role_switch>;
+				};
+			};
+		};
+
 		typec_con: connector {
 			compatible = "usb-c-connector";
 			data-role = "dual";
@@ -844,10 +857,14 @@
 
 &usbdrd_dwc3_0 {
 	status = "okay";
-	dr_mode = "host";
-	// Note: extcon = <&fusb0> removed - fusb302 driver doesn't properly expose
-	// extcon interface, causing "failed to get extcon" probe failure.
-	// Type-C OTG mode requires additional kernel patches for RK3399.
+	dr_mode = "otg";
+	usb-role-switch;
+
+	port {
+		dwc3_0_role_switch: endpoint {
+			remote-endpoint = <&usbc0_role_sw>;
+		};
+	};
 };
 
 &usbdrd3_1 {
