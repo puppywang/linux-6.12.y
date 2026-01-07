@@ -7700,12 +7700,7 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
 	if (!port->role_sw)
 		port->role_sw = usb_role_switch_get(port->dev);
 	
-	/* DEBUG: Print role-switch lookup result */
-	if (port->role_sw)
-		dev_info(dev, "TCPM: role_sw found: %s\n", dev_name(&port->role_sw->dev));
-	else
-		dev_warn(dev, "TCPM: role_sw NOT found! tcpc->fwnode=%pfw, dev=%s\n",
-			 tcpc->fwnode, dev_name(port->dev));
+
 	
 	if (IS_ERR(port->role_sw)) {
 		err = PTR_ERR(port->role_sw);
