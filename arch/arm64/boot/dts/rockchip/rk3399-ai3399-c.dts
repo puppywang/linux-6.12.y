@@ -200,11 +200,11 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&vcc_vbus_typec0_en>;
 		regulator-name = "vcc_vbus_typec0";
-		regulator-always-on;
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
 		vin-supply = <&vcc_sys>;
 	};
+
 
 	//可能没驱动,注意,可能需要替换成 gpio-leds
 	/*
