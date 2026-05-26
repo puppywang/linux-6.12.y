@@ -1176,8 +1176,14 @@
 &dfi {
 	status = "okay";
 };
-//vdpu@ff650400,ok,但是没节点
-&vpu {
+// MPP H.264 hardware encoder + classic VPU decoder
+&mpp_srv {
+	status = "okay";
+};
+&vepu {
+	status = "okay";
+};
+&vdpu {
 	status = "okay";
 };
 &vpu_mmu {
