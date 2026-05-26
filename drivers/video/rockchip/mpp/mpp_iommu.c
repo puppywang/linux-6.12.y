@@ -19,7 +19,6 @@
 #include <linux/platform_device.h>
 
 #ifdef CONFIG_ARM_DMA_USE_IOMMU
-#include <asm/dma-iommu.h>
 #endif
 #include <soc/rockchip/rockchip_iommu.h>
 
