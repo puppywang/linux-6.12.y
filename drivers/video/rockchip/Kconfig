@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: GPL-2.0
+menu "Rockchip Media Process Platform"
+
+source "drivers/video/rockchip/mpp_osal/Kconfig"
+source "drivers/video/rockchip/mpp/Kconfig"
+
+endmenu
