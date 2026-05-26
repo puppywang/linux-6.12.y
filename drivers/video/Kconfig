@@ -27,6 +27,7 @@ config VIDEO
 	default n
 
 source "drivers/auxdisplay/Kconfig"
+source "drivers/video/rockchip/Kconfig"
 
 if HAS_IOMEM
 
